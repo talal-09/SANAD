@@ -2,6 +2,8 @@
 
 [![Tests](https://github.com/talal-09/SANAD/actions/workflows/tests.yml/badge.svg)](https://github.com/talal-09/SANAD/actions/workflows/tests.yml)
 
+**[استعرض سَنَد مباشرة](https://talal-09.github.io/SANAD/)**
+
 سَنَد نموذج أولي عربي يساعد طبيب الأشعة على مراجعة العقد الرئوية المحتملة في صور CT، وتصحيح موضعها وقياسها، ثم متابعة الحالة ضمن مسار عمل واضح.
 
 > مشروع بحثي وتجريبي للعرض. لا يُستخدم للتشخيص أو لاتخاذ قرار علاجي مستقل، والقرار النهائي للطبيب.
