@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}المتابعات | سَنَد{% endblock %}
+{% block content %}
+<header class="page-header"><div><span class="eyebrow">الخطوة الخامسة</span><h1>المتابعات</h1><p>يعرض سَنَد الحالات التي وصلت إلى مرحلة المتابعة.</p></div>{% if sanad_access.followups_manage %}<a class="button" href="{% url 'followups:create_plan' %}">إنشاء الخطة المطلوبة</a>{% endif %}</header>
+<section><div class="section-heading"><div><h2>خطط المتابعة</h2><p>مرتبة حسب أولوية العمل.</p></div></div><div class="list-card">
+{% for plan in plans %}<div class="entity-row static-row"><span class="priority-mark"></span><div class="entity-main"><strong>{{ plan.patient }}</strong><small>{{ plan.proposed_action|default:"متابعة الحالة" }}</small></div><div class="row-meta"><small>الاستحقاق</small><strong>{{ plan.due_date }}</strong></div><span class="quiet-status">{{ plan.get_status_display }}</span></div>
+{% empty %}<div class="empty-state"><h2>لا توجد خطط متابعة</h2><p>أنشئ خطة عندما تحتاج الحالة إلى متابعة.</p></div>{% endfor %}
+</div></section>
+<section class="secondary-section"><div class="section-heading"><div><h2>المواعيد</h2><p>إضافة الموعد تنشئ تذكيراته تلقائيًا.</p></div>{% if sanad_access.followups_manage %}<a class="text-link" href="{% url 'followups:create_appointment' %}">إضافة موعد</a>{% endif %}</div><div class="compact-grid">{% for appointment in appointments %}<article class="compact-card"><strong>{{ appointment.patient }}</strong><span>{{ appointment.appointment_type }}</span><small>{{ appointment.scheduled_at }}</small></article>{% empty %}<p class="muted-copy">لا توجد مواعيد مسجلة.</p>{% endfor %}</div></section>
+{% if sanad_access.followups_manage %}<details class="more-actions"><summary>إجراءات متابعة أخرى</summary><div><a href="{% url 'followups:create_referral' %}">إنشاء إحالة</a>{% if sanad_access.followups_close %}<a class="danger-link" href="{% url 'followups:create_closure' %}">إغلاق خطة</a>{% endif %}</div></details>{% endif %}
+{% endblock %}

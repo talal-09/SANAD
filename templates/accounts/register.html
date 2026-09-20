@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}إنشاء حساب | سَنَد{% endblock %}
+{% block content %}
+<section class="form-page wide-form"><div class="form-page-heading"><a class="back-link" href="{% url 'accounts:login' %}">العودة لتسجيل الدخول ←</a><span class="eyebrow">حساب جديد</span><h1>بيانات الكادر</h1><p>أدخل بياناتك الوظيفية لإنشاء الحساب.</p></div><div class="form-card"><form method="post">{% csrf_token %}{{ form.as_p }}<button class="button full-button" type="submit">إنشاء الحساب</button></form></div></section>
+{% endblock %}

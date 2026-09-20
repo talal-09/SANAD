@@ -1,0 +1,41 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+
+# Databases and protected medical files
+*.sqlite3
+private_uploads/
+media/
+
+# Python environments and generated files
+.venv/
+.venv-ai/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Django/runtime output
+logs/
+*.log
+staticfiles/
+
+# Local training data and experiment output
+training_workspace/
+
+# Publish model weights separately as a release asset
+ai_models/**/models/*.pt
+ai_models/**/models/*.pth
+ai_models/**/models/*.ts
+ai_models/**/.cache/
+ai_models/**/.verification/
+ai_models/.hf-cache/
+
+# Local agent instructions and editor/OS files
+AGENT_RULES.md
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

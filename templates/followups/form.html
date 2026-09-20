@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} | سَنَد{% endblock %}
+{% block content %}
+<section class="form-page"><div class="form-page-heading"><a class="back-link" href="{% url 'followups:index' %}">المتابعات ←</a><span class="eyebrow">إجراء متابعة</span><h1>{{ title }}</h1><p>أدخل البيانات الضرورية فقط.</p></div><div class="form-card"><form method="post">{% csrf_token %}{{ form.as_p }}<div class="form-actions"><button class="button" type="submit">حفظ</button><a class="button ghost-button" href="{% url 'followups:index' %}">إلغاء</a></div></form></div></section>
+{% endblock %}

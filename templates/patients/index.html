@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}المرضى | سَنَد{% endblock %}
+{% block content %}
+<header class="page-header"><div><span class="eyebrow">الخطوة الأولى</span><h1>المرضى</h1><p>اختر المريض الذي سيبدأ منه المسار.</p></div>{% if sanad_access.patients_register %}<a class="button" href="{% url 'patients:create' %}">مريض جديد</a>{% endif %}</header>
+<form class="search-bar" method="get" role="search"><label class="sr-only" for="patient-search">بحث عن مريض</label><input id="patient-search" name="q" value="{{ query }}" placeholder="اكتب اسم المريض أو رقمه"><button type="submit">بحث</button>{% if query %}<a href="{% url 'patients:index' %}">مسح</a>{% endif %}</form>
+<section class="list-card" aria-label="قائمة المرضى">
+{% for patient in patients %}<a class="entity-row" href="{% url 'patients:detail' patient.pk %}"><span class="entity-avatar">{{ patient.full_name|slice:":1" }}</span><div class="entity-main"><strong>{{ patient.full_name }}</strong><small>رقم المريض {{ patient.patient_number }}{% if patient.city %} · {{ patient.city }}{% endif %}</small></div><span class="quiet-status">{{ patient.get_record_status_display }}</span><span class="row-arrow">←</span></a>
+{% empty %}<div class="empty-state"><h2>{% if query %}لم نجد مريضًا بهذه البيانات{% else %}لا يوجد مرضى بعد{% endif %}</h2><p>{% if query %}جرّب الاسم أو رقم المريض بطريقة أخرى.{% else %}ابدأ بتسجيل أول مريض.{% endif %}</p>{% if not query and sanad_access.patients_register %}<a class="button" href="{% url 'patients:create' %}">تسجيل مريض</a>{% endif %}</div>{% endfor %}
+</section>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% if request.user.is_authenticated %}
+<header class="mobile-header">
+  <a class="brand brand-small" href="{% url 'accounts:index' %}" aria-label="سَنَد، الرئيسية"><span class="brand-mark">س</span><span>سَنَد</span></a>
+  <button class="menu-button" type="button" aria-expanded="false" aria-controls="main-navigation" aria-label="فتح القائمة"><span></span><span></span><span></span></button>
+</header>
+<aside class="app-sidebar main-nav" id="main-navigation" aria-label="التنقل الرئيسي">
+  <a class="brand" href="{% url 'accounts:index' %}"><span class="brand-mark">س</span><span class="brand-copy">سَنَد<small>مساعد الأشعة</small></span></a>
+  <nav class="sidebar-nav">
+    <a class="sidebar-link{% if request.resolver_match.app_name == 'accounts' %} active{% endif %}" href="{% url 'accounts:index' %}">الرئيسية</a>
+    {% if sanad_access.radiology_view %}<a class="sidebar-link{% if request.resolver_match.app_name == 'radiology' %} active{% endif %}" href="{% url 'radiology:index' %}">الأشعة</a>{% endif %}
+    {% if sanad_access.patients_view %}<a class="sidebar-link{% if request.resolver_match.app_name == 'patients' %} active{% endif %}" href="{% url 'patients:index' %}">المرضى</a>{% endif %}
+    {% if sanad_access.followups_view %}<a class="sidebar-link{% if request.resolver_match.app_name == 'followups' %} active{% endif %}" href="{% url 'followups:index' %}">المتابعات</a>{% endif %}
+    {% if sanad_access.notifications_view %}<a class="sidebar-link{% if request.resolver_match.app_name == 'notifications' %} active{% endif %}" href="{% url 'notifications:index' %}">التنبيهات</a>{% endif %}
+  </nav>
+  <div class="sidebar-bottom">
+    <div class="user-chip"><span class="user-avatar">{{ request.user.get_full_name|default:request.user.username|slice:":1" }}</span><div><strong>{{ request.user.get_full_name|default:request.user.username }}</strong><small>حساب الكادر</small></div></div>
+    <form class="logout-form" method="post" action="{% url 'accounts:logout' %}">{% csrf_token %}<button type="submit" class="logout-button">تسجيل الخروج</button></form>
+  </div>
+</aside>
+<button class="sidebar-backdrop" type="button" aria-label="إغلاق القائمة" aria-hidden="true" tabindex="-1"></button>
+{% else %}
+<header class="public-header"><div class="public-nav">
+  <a class="brand" href="{% url 'core:home' %}"><span class="brand-mark">س</span><span class="brand-copy">سَنَد<small>SANAD</small></span></a>
+  <nav><a href="{% url 'accounts:login' %}">تسجيل الدخول</a><a class="button small-button" href="{% url 'accounts:register' %}">إنشاء حساب</a></nav>
+</div></header>
+{% endif %}

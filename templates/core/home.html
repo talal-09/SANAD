@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}سَنَد | مراجعة الأشعة ببساطة{% endblock %}
+{% block content %}
+<section class="landing">
+  <div class="landing-copy">
+    <span class="eyebrow">للكادر الطبي</span>
+    <h1>من الأشعة إلى قرار الطبيب، بخطوات واضحة.</h1>
+    <p>ارفع دراسة CT، تابع التحليل، ثم راجع المواضع المحتملة على الصورة من شاشة واحدة.</p>
+    <div class="landing-actions"><a class="button large-button" href="{% url 'accounts:login' %}">دخول الكادر</a>{% if allow_public_registration %}<a class="text-link" href="{% url 'accounts:register' %}">إنشاء حساب جديد</a>{% endif %}</div>
+    <p class="clinical-note">التحليل أداة مساندة ولا يستبدل قراءة الطبيب أو التشخيص السريري.</p>
+  </div>
+  <div class="landing-visual" aria-hidden="true">
+    <div class="scan-window"><div class="scan-shape"><span></span></div><div class="scan-caption"><small>دراسة CT</small><strong>مراجعة واضحة</strong></div></div>
+    <div class="floating-card"><span class="mini-status"></span><div><strong>النتائج جاهزة</strong><small>بانتظار قرار الطبيب</small></div></div>
+  </div>
+</section>
+{% endblock %}

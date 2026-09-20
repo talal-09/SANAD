@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}تسجيل الدخول | سَنَد{% endblock %}
+{% block content %}
+<section class="auth-layout"><div class="auth-intro"><span class="eyebrow">سَنَد</span><h1>مرحبًا بعودتك</h1><p>ادخل إلى مساحة مراجعة الأشعة والمتابعة.</p></div><div class="form-card"><h2>تسجيل الدخول</h2><form method="post">{% csrf_token %}{{ form.as_p }}<button class="button full-button" type="submit">دخول</button></form><p class="form-foot">ليس لديك حساب؟ <a href="{% url 'accounts:register' %}">إنشاء حساب</a></p></div></section>
+{% endblock %}

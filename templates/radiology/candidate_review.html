@@ -1,0 +1,216 @@
+{% extends "base.html" %}
+{% block title %}قرار الطبيب | سَنَد{% endblock %}
+{% block content %}
+<a class="back-link" href="{% url 'radiology:study_detail' study.pk %}">العودة للدراسة ←</a>
+<header class="page-header compact-page-header"><div><span class="eyebrow">مراجعة موضع</span><h1>هل هذا الموضع صحيح؟</h1><p>{{ study.patient }}</p></div></header>
+<div class="review-layout">
+  <section class="image-card">
+    <div class="scan-preview review-preview correction-stage" id="correction-stage">
+      <img id="correction-image" src="{% url 'radiology:candidate_preview' candidate.pk %}" data-editor-src="{% url 'radiology:candidate_preview' candidate.pk %}?editor=1" alt="شريحة CT مع تحديد الموضع المحتمل">
+      <button class="correction-marker" id="correction-marker" type="button" aria-label="حرّك مركز العقدة" hidden></button>
+      <span id="preview-caption">الموضع داخل الدائرة</span>
+    </div>
+    <div class="primary-measure"><small>أكبر قياس</small><strong>{{ candidate.measurements.maximum_dimension_mm|floatformat:1 }} مم</strong></div>
+    <p class="model-confidence">ثقة النموذج {% widthratio candidate.confidence_score 1 100 %}٪ — لا تعتمد القرار عليها وحدها</p>
+  </section>
+  <section class="form-card decision-card">
+    <form method="post" id="review-form">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      <div class="form-field">{{ form.decision.label_tag }}{{ form.decision }}{% if form.decision.help_text %}<p class="helptext">{{ form.decision.help_text }}</p>{% endif %}{{ form.decision.errors }}</div>
+      <div class="correction-tools" id="correction-tools" hidden>
+        <div><strong>صحّح الموضع والقياس</strong><p>اسحب الدائرة إلى مركز العقدة، ثم اضبط قطرها. يحسب سَنَد إحداثيات DICOM تلقائيًا.</p></div>
+        {{ form.corrected_center_x }}{{ form.corrected_center_y }}
+        <div class="form-field">{{ form.corrected_diameter_mm.label_tag }}<div class="diameter-control">{{ form.corrected_diameter_mm }}<span>مم</span></div><input id="diameter-slider" type="range" min="0.5" max="100" step="0.1" aria-label="ضبط قطر دائرة القياس">{% if form.corrected_diameter_mm.help_text %}<p class="helptext">{{ form.corrected_diameter_mm.help_text }}</p>{% endif %}{{ form.corrected_diameter_mm.errors }}</div>
+        <p class="correction-status" id="correction-status" aria-live="polite">جارٍ تجهيز أداة التصحيح…</p>
+      </div>
+      <div class="form-field">{{ form.clinician_notes.label_tag }}{{ form.clinician_notes }}{% if form.clinician_notes.help_text %}<p class="helptext">{{ form.clinician_notes.help_text }}</p>{% endif %}{{ form.clinician_notes.errors }}</div>
+      <div class="form-actions"><button class="button" type="submit">حفظ والانتقال للتالي</button><a class="button ghost-button" href="{% url 'radiology:study_detail' study.pk %}">العودة</a></div>
+    </form>
+    <details class="optional-fields"><summary>البيانات التقنية الأصلية</summary><div class="code-data">{{ candidate.coordinates }}</div></details>
+  </section>
+</div>
+<script nonce="{{ csp_nonce }}">
+(() => {
+  const image = document.getElementById("correction-image");
+  const stage = document.getElementById("correction-stage");
+  const marker = document.getElementById("correction-marker");
+  const tools = document.getElementById("correction-tools");
+  const status = document.getElementById("correction-status");
+  const caption = document.getElementById("preview-caption");
+  const centerX = document.getElementById("id_corrected_center_x");
+  const centerY = document.getElementById("id_corrected_center_y");
+  const diameter = document.getElementById("id_corrected_diameter_mm");
+  const slider = document.getElementById("diameter-slider");
+  const reviewForm = document.getElementById("review-form");
+  const annotatedSource = image.src;
+  let editorObjectUrl = null;
+  let editorPreviewPromise = null;
+  let metadata = null;
+  let dragging = false;
+
+  const selectedDecision = () => document.querySelector('input[name="decision"]:checked')?.value;
+  const clamp = (value, minimum, maximum) => Math.min(Math.max(value, minimum), maximum);
+  const setFieldValue = (field, value) => {
+    const normalized = String(value);
+    field.value = normalized;
+    field.setAttribute("value", normalized);
+  };
+  const setCenter = (pixelX, pixelY) => {
+    marker.dataset.pixelX = String(pixelX);
+    marker.dataset.pixelY = String(pixelY);
+    setFieldValue(centerX, pixelX);
+    setFieldValue(centerY, pixelY);
+  };
+
+  function imageGeometry() {
+    const rect = image.getBoundingClientRect();
+    const scale = Math.min(rect.width / metadata.imageWidth, rect.height / metadata.imageHeight);
+    const width = metadata.imageWidth * scale;
+    const height = metadata.imageHeight * scale;
+    return {rect, scale, left: rect.left + (rect.width - width) / 2, top: rect.top + (rect.height - height) / 2};
+  }
+
+  function drawMarker() {
+    if (!metadata || !marker.dataset.pixelX || !marker.dataset.pixelY) return;
+    const geometry = imageGeometry();
+    const stageRect = stage.getBoundingClientRect();
+    marker.style.left = `${geometry.left - stageRect.left + Number(marker.dataset.pixelX) * geometry.scale}px`;
+    marker.style.top = `${geometry.top - stageRect.top + Number(marker.dataset.pixelY) * geometry.scale}px`;
+    const displayedSize = Math.max(22, (Number(diameter.value || 0) / metadata.spacingMinimum) * geometry.scale);
+    marker.style.width = `${displayedSize}px`;
+    marker.style.height = `${displayedSize}px`;
+  }
+
+  function setCenterFromPointer(clientX, clientY) {
+    if (!metadata) return;
+    const geometry = imageGeometry();
+    setCenter(
+      clamp((clientX - geometry.left) / geometry.scale, 0, metadata.imageWidth - 1).toFixed(2),
+      clamp((clientY - geometry.top) / geometry.scale, 0, metadata.imageHeight - 1).toFixed(2),
+    );
+    status.textContent = "تم تحديد المركز. اضبط القطر ثم احفظ القرار.";
+    drawMarker();
+  }
+
+  function decodeImage(source) {
+    const preloadedImage = new Image();
+    preloadedImage.src = source;
+    if (typeof preloadedImage.decode === "function") return preloadedImage.decode();
+    return new Promise((resolve, reject) => {
+      preloadedImage.addEventListener("load", resolve, {once: true});
+      preloadedImage.addEventListener("error", reject, {once: true});
+    });
+  }
+
+  function prepareEditorPreview() {
+    if (metadata && editorObjectUrl) return Promise.resolve();
+    if (editorPreviewPromise) return editorPreviewPromise;
+    editorPreviewPromise = (async () => {
+      const response = await fetch(image.dataset.editorSrc, {credentials: "same-origin"});
+      if (!response.ok) throw new Error("preview unavailable");
+      const loadedMetadata = {
+        centerX: Number(response.headers.get("X-SANAD-Center-X")),
+        centerY: Number(response.headers.get("X-SANAD-Center-Y")),
+        imageWidth: Number(response.headers.get("X-SANAD-Image-Width")),
+        imageHeight: Number(response.headers.get("X-SANAD-Image-Height")),
+        spacingMinimum: Math.min(Number(response.headers.get("X-SANAD-Spacing-X")), Number(response.headers.get("X-SANAD-Spacing-Y"))),
+      };
+      if (Object.values(loadedMetadata).some(value => !Number.isFinite(value))) throw new Error("invalid preview geometry");
+      const loadedObjectUrl = URL.createObjectURL(await response.blob());
+      try {
+        await decodeImage(loadedObjectUrl);
+      } catch (error) {
+        URL.revokeObjectURL(loadedObjectUrl);
+        throw error;
+      }
+      metadata = loadedMetadata;
+      editorObjectUrl = loadedObjectUrl;
+    })().catch(error => {
+      editorPreviewPromise = null;
+      throw error;
+    });
+    return editorPreviewPromise;
+  }
+
+  async function openCorrectionEditor() {
+    tools.hidden = false;
+    caption.textContent = "اسحب الدائرة إلى مركز العقدة";
+    status.textContent = "جارٍ تجهيز أداة التصحيح…";
+    stage.setAttribute("aria-busy", "true");
+    try {
+      await prepareEditorPreview();
+      if (selectedDecision() !== "corrected") return;
+      image.src = editorObjectUrl;
+      setCenter(centerX.value || metadata.centerX.toFixed(2), centerY.value || metadata.centerY.toFixed(2));
+      slider.value = diameter.value || "5";
+      marker.hidden = false;
+      status.textContent = "اسحب الدائرة إلى مركز العقدة واضبط قطرها.";
+      drawMarker();
+    } catch (_error) {
+      status.textContent = "تعذر تجهيز أداة التصحيح. أعد فتح الدراسة وحاول مرة أخرى.";
+    } finally {
+      stage.removeAttribute("aria-busy");
+    }
+  }
+
+  function closeCorrectionEditor() {
+    tools.hidden = true;
+    marker.hidden = true;
+    caption.textContent = "الموضع داخل الدائرة";
+    image.src = annotatedSource;
+  }
+
+  function updateMode() {
+    if (selectedDecision() === "corrected") openCorrectionEditor();
+    else closeCorrectionEditor();
+  }
+
+  stage.addEventListener("pointerdown", event => {
+    if (selectedDecision() !== "corrected" || !metadata) return;
+    dragging = true;
+    stage.setPointerCapture(event.pointerId);
+    setCenterFromPointer(event.clientX, event.clientY);
+  });
+  stage.addEventListener("pointermove", event => { if (dragging) setCenterFromPointer(event.clientX, event.clientY); });
+  stage.addEventListener("pointerup", () => { dragging = false; });
+  marker.addEventListener("keydown", event => {
+    if (!metadata || !["ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown"].includes(event.key)) return;
+    event.preventDefault();
+    const step = event.shiftKey ? 5 : 1;
+    let pixelX = Number(marker.dataset.pixelX);
+    let pixelY = Number(marker.dataset.pixelY);
+    if (event.key === "ArrowRight") pixelX = clamp(pixelX + step, 0, metadata.imageWidth - 1);
+    if (event.key === "ArrowLeft") pixelX = clamp(pixelX - step, 0, metadata.imageWidth - 1);
+    if (event.key === "ArrowDown") pixelY = clamp(pixelY + step, 0, metadata.imageHeight - 1);
+    if (event.key === "ArrowUp") pixelY = clamp(pixelY - step, 0, metadata.imageHeight - 1);
+    setCenter(pixelX.toFixed(2), pixelY.toFixed(2));
+    drawMarker();
+  });
+  diameter.addEventListener("input", () => { slider.value = diameter.value || "0.5"; drawMarker(); });
+  slider.addEventListener("input", () => { diameter.value = slider.value; drawMarker(); });
+  document.querySelectorAll('input[name="decision"]').forEach(input => input.addEventListener("change", updateMode));
+  reviewForm.addEventListener("submit", () => {
+    if (selectedDecision() === "corrected") {
+      setFieldValue(centerX, marker.dataset.pixelX || "");
+      setFieldValue(centerY, marker.dataset.pixelY || "");
+    }
+  }, {capture: true});
+  reviewForm.addEventListener("formdata", event => {
+    if (selectedDecision() === "corrected") {
+      event.formData.set("corrected_center_x", marker.dataset.pixelX || "");
+      event.formData.set("corrected_center_y", marker.dataset.pixelY || "");
+    }
+  });
+  window.addEventListener("resize", drawMarker);
+  window.addEventListener("beforeunload", () => { if (editorObjectUrl) URL.revokeObjectURL(editorObjectUrl); });
+  updateMode();
+  const preloadEditor = () => window.setTimeout(
+    () => prepareEditorPreview().catch(() => {}),
+    0,
+  );
+  if (image.complete) preloadEditor();
+  else image.addEventListener("load", preloadEditor, {once: true});
+})();
+</script>
+{% endblock %}

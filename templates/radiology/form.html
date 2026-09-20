@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} | سَنَد{% endblock %}
+{% block content %}
+<section class="form-page"><div class="form-page-heading"><a class="back-link" href="{% url 'radiology:index' %}">الأشعة ←</a><span class="eyebrow">بيانات الأشعة</span><h1>{{ title }}</h1></div><div class="form-card"><form method="post" enctype="multipart/form-data">{% csrf_token %}{{ form.non_field_errors }}{% for field in form %}{% if field.is_hidden %}{{ field }}{{ field.errors }}{% else %}<div class="form-field">{{ field.label_tag }}{{ field }}{% if field.help_text %}<p class="helptext">{{ field.help_text }}</p>{% endif %}{{ field.errors }}</div>{% endif %}{% endfor %}<div class="form-actions"><button class="button" type="submit">حفظ</button><a class="button ghost-button" href="{% url 'radiology:index' %}">إلغاء</a></div></form></div></section>
+{% endblock %}

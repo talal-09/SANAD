@@ -1,0 +1,7 @@
+# Install the PyTorch build that matches your CUDA version first:
+# https://pytorch.org/get-started/locally/
+monai==1.4.0
+numpy==1.26.4
+nibabel==5.2.1
+Pillow==12.3.0
+pytorch-ignite==0.4.11

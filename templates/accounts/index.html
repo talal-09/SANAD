@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}المسار | سَنَد{% endblock %}
+{% block content %}
+<header class="welcome-header"><div><span class="eyebrow">مسار الحالة</span><h1>مرحبًا، {{ request.user.first_name|default:request.user.username }}</h1><p>يعرض سَنَد الخطوة المطلوبة الآن؛ أكملها للانتقال تلقائيًا إلى التالية.</p></div></header>
+<ol class="workflow-progress" aria-label="مسار العمل">
+  <li class="{% if next_step.stage >= 1 %}active{% endif %}"><span>1</span>المريض</li>
+  <li class="{% if next_step.stage >= 2 %}active{% endif %}"><span>2</span>الأشعة</li>
+  <li class="{% if next_step.stage >= 3 %}active{% endif %}"><span>3</span>التحليل</li>
+  <li class="{% if next_step.stage >= 4 %}active{% endif %}"><span>4</span>قرار الطبيب</li>
+  <li class="{% if next_step.stage >= 5 %}active{% endif %}"><span>5</span>المتابعة</li>
+</ol>
+{% if next_step %}<section class="primary-task guided-task"><div><span class="task-label">خطوتك التالية</span><h2>{{ next_step.label }}</h2><p>{{ next_step.description }}</p></div><a class="button large-button" href="{{ next_step.url }}">متابعة المسار</a></section>{% else %}<section class="primary-task guided-task"><div><span class="task-label">الحساب</span><h2>لا توجد مهمة متاحة لدورك</h2><p>اطلب من مدير النظام مراجعة صلاحيات الحساب.</p></div></section>{% endif %}
+<section class="path-note"><strong>كيف يعمل المسار؟</strong><p>لا تحتاج لاختيار القسم التالي. بعد كل خطوة ينقلك سَنَد إلى الإجراء المطلوب، بينما يبقى القرار الطبي للطبيب.</p></section>
+{% endblock %}

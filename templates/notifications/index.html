@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}التنبيهات | سَنَد{% endblock %}
+{% block content %}
+<header class="page-header"><div><span class="eyebrow">تلقائية</span><h1>التنبيهات</h1><p>ينشئها سَنَد من مواعيد المتابعة وتأخر الخطط دون إدخال يدوي.</p></div></header>
+<section class="automation-note"><strong>التنبيهات تعمل تلقائيًا</strong><span>تذكير قبل الموعد بـ7 أيام ويوم واحد، مع تنبيه للتأخر والتصعيد.</span></section>
+<section><div class="list-card">
+{% for item in notifications %}<div class="entity-row static-row notification-row"><div class="entity-main"><strong>{{ item.patient }}</strong><small>{{ item.get_notification_type_display }} · {{ item.get_channel_display }}</small></div><div class="row-meta"><small>موعد الإرسال</small><strong>{{ item.scheduled_at }}</strong></div><span class="quiet-status">{{ item.get_status_display }}</span></div>
+{% empty %}<div class="empty-state"><h2>لا توجد تنبيهات مستحقة</h2><p>سيُنشئها سَنَد تلقائيًا عند إضافة موعد أو تأخر خطة.</p></div>{% endfor %}
+</div></section>
+{% if sanad_access.notifications_contact %}<section class="secondary-section"><div class="section-heading"><div><h2>آخر محاولات التواصل</h2></div><a class="text-link" href="{% url 'notifications:create_contact_attempt' %}">تسجيل نتيجة التواصل</a></div><div class="compact-grid">{% for attempt in attempts %}<article class="compact-card"><strong>{{ attempt.patient }}</strong><span>{{ attempt.get_method_display }}</span><small>{{ attempt.get_result_display }}</small></article>{% empty %}<p class="muted-copy">لا توجد محاولات تواصل.</p>{% endfor %}</div></section>{% endif %}
+{% endblock %}

@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} | سَنَد{% endblock %}
+{% block content %}
+<section class="form-page"><div class="form-page-heading"><a class="back-link" href="{% url 'patients:index' %}">المرضى ←</a><span class="eyebrow">بيانات المريض</span><h1>{{ title }}</h1><p>أكمل البيانات المطلوبة ثم احفظ.</p></div><div class="form-card"><form method="post">{% csrf_token %}{{ form.as_p }}<div class="form-actions"><button class="button" type="submit">حفظ</button><a class="button ghost-button" href="{% url 'patients:index' %}">إلغاء</a></div></form></div></section>
+{% endblock %}
