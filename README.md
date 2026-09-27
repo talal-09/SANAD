@@ -1,8 +1,8 @@
-# سَنَد | SANAD
+# SANAD
 
 [![Tests](https://github.com/talal-09/SANAD/actions/workflows/tests.yml/badge.svg)](https://github.com/talal-09/SANAD/actions/workflows/tests.yml)
 
-**English** · [العربية](README.ar.md)
+**Documentation language: English**
 
 **[Explore the live SANAD showcase](https://talal-09.github.io/SANAD/)**
 
@@ -38,7 +38,7 @@ SANAD is an Arabic-first research prototype that helps radiologists review poten
 - MONAI and PyTorch
 - pydicom for DICOM processing
 - SQLite for local development
-- Responsive Arabic user interface
+- Responsive bilingual Arabic-English user interface
 - Optional private Cloudinary storage
 
 ## Local Setup
@@ -110,7 +110,7 @@ See [MODEL_CARD.md](MODEL_CARD.md) for detailed results and limitations. On the 
 - The repository contains no patient records, DICOM studies, or local database files.
 - Medical files are stored outside the public media directory and are protected by organization-level authorization.
 - The application includes CSRF and CSP protections, ZIP upload limits, and login-attempt controls.
-- See [SECURITY_AUDIT.md](SECURITY_AUDIT.md) and [SECURITY.md](SECURITY.md).
+- See the [Security Policy](SECURITY.md), [Security Audit](SECURITY_AUDIT.md), and [Usage Policy](USAGE_POLICY.md).
 
 ## Data and Attribution
 

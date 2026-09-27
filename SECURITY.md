@@ -1,7 +1,11 @@
-# سياسة الأمان
+# Security Policy
 
-لا تضع بيانات مرضى أو صور DICOM أو قواعد بيانات أو مفاتيح سرية في بلاغات GitHub.
+Do not include patient information, DICOM studies, databases, credentials, API keys, or other secrets in GitHub issues or public discussions.
 
-إذا وجدت ثغرة، أرسل بلاغًا خاصًا إلى مالك المستودع مع وصف الأثر وخطوات إعادة الإنتاج. لا تنشر تفاصيل الثغرة علنًا قبل إصلاحها.
+## Reporting a Vulnerability
 
-راجع `SECURITY_AUDIT.md` لمعرفة الحماية المطبقة وحدود الفحص الحالي.
+Report suspected vulnerabilities privately to the repository owner. Include a concise impact assessment, affected versions or components, and reproducible steps when it is safe to do so.
+
+Do not disclose vulnerability details publicly until a fix is available and coordinated disclosure has been agreed upon.
+
+See [SECURITY_AUDIT.md](SECURITY_AUDIT.md) for the protections currently implemented and the limits of the latest internal review.

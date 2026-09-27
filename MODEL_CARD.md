@@ -1,35 +1,35 @@
-# بطاقة نموذج سَنَد
+# SANAD Model Card
 
-## الغرض
+## Intended Purpose
 
-نموذج بحثي أولي لاكتشاف مواضع محتملة للعقد الرئوية في صور CT ثلاثية الأبعاد. يعرض سَنَد النتائج للطبيب لمراجعتها وتصحيحها أو رفضها. لا يصدر النموذج تشخيصًا نهائيًا.
+SANAD is a research prototype for identifying potential pulmonary nodule locations in three-dimensional CT scans. It presents model output to a radiologist for review, correction, or rejection. The model does not issue a final diagnosis.
 
-## البيانات
+## Data
 
-- حزمة MONAI الأساسية: `lung_nodule_ct_detection`.
-- بيانات التطوير والتقييم: LUNA16 المبنية على LIDC-IDRI.
-- لا يتضمن هذا المستودع صور المرضى أو بيانات LUNA16.
+- Base MONAI bundle: `lung_nodule_ct_detection`.
+- Development and evaluation data: LUNA16, derived from LIDC-IDRI.
+- This repository does not contain patient scans or LUNA16 data.
 
-## نتيجة الاختبار المنفصل
+## Held-Out Test Result
 
-اختُبرت عتبة القرار المختارة من بيانات التحقق على 84 دراسة مستقلة تضم 102 عقدة متفقًا عليها:
+The decision threshold selected on validation data was evaluated on 84 independent scans containing 102 consensus nodules:
 
-| المقياس | النتيجة |
+| Metric | Result |
 |---|---:|
-| العقد المكتشفة | 97 من 102 |
-| الحساسية | 95.1% |
-| الدقة الإيجابية (Precision) | 31.5% |
-| العقد الفائتة | 5 |
-| الإنذارات الخاطئة | 211 |
-| الإنذارات الخاطئة لكل دراسة | 2.51 |
+| Detected nodules | 97 of 102 |
+| Sensitivity | 95.1% |
+| Positive predictive value (precision) | 31.5% |
+| Missed nodules | 5 |
+| False positives | 211 |
+| False positives per scan | 2.51 |
 
-## القيود
+## Limitations
 
-- النتائج تثبت عمل خط التدريب والاختبار، ولا تثبت صلاحية سريرية.
-- يحتاج النموذج تحققًا خارجيًا متعدد المراكز وعلى أجهزة وبروتوكولات تصوير مختلفة.
-- معدل الإنذارات الخاطئة مرتفع، لذلك تبقى مراجعة الطبيب إلزامية.
-- لا ينبغي استخدام المخرجات لاتخاذ قرار علاجي مستقل.
+- These results demonstrate that the training and evaluation pipeline operates end to end; they do not establish clinical validity.
+- The model requires external, multi-center validation across different scanners, populations, and imaging protocols.
+- The false-positive rate is substantial, so qualified clinician review remains mandatory.
+- Model output must not be used as the sole basis for diagnosis, treatment, triage, or other clinical decisions.
 
-## الأوزان
+## Model Weights
 
-لا تحفظ أوزان النموذج داخل Git. انشر النموذج المعتمد وحده كأصل في GitHub Release أو مخزن نماذج، ثم ضع رابط التنزيل وقيمة SHA-256 هنا.
+Model weights are not stored in Git. Publish only an approved model as a GitHub Release asset or in a controlled model registry, then document its download URL and SHA-256 checksum here.
