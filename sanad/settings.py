@@ -8,22 +8,30 @@ from django.utils.csp import CSP
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Keep the existing local signing key; explicit environment configuration wins.
-# The local .env uses SECRET_KEY, while Django reads DJANGO_SECRET_KEY.
-if not os.environ.get("DJANGO_SECRET_KEY"):
-    local_env_path = BASE_DIR / ".env"
-    if local_env_path.is_file():
-        for local_env_line in local_env_path.read_text(encoding="utf-8-sig").splitlines():
-            local_env_name, separator, local_env_value = local_env_line.partition("=")
-            if separator and local_env_name.strip() == "SECRET_KEY":
-                local_env_value = local_env_value.strip()
-                if (len(local_env_value) >= 2 and
-                        local_env_value[0] == local_env_value[-1] and
-                        local_env_value[0] in ("'", '"')):
-                    local_env_value = local_env_value[1:-1]
-                if local_env_value:
-                    os.environ["DJANGO_SECRET_KEY"] = local_env_value
-                break
+# Load only the explicitly supported local settings. Real environment variables
+# always win, and secrets are never committed to the repository.
+_LOCAL_ENV_NAMES = {
+    "SECRET_KEY": "DJANGO_SECRET_KEY",
+    "CLOUDINARY_URL": "CLOUDINARY_URL",
+    "SANAD_CLOUDINARY_ENABLED": "SANAD_CLOUDINARY_ENABLED",
+    "SANAD_CLOUDINARY_FOLDER": "SANAD_CLOUDINARY_FOLDER",
+}
+local_env_path = BASE_DIR / ".env"
+if local_env_path.is_file():
+    for local_env_line in local_env_path.read_text(encoding="utf-8-sig").splitlines():
+        local_env_name, separator, local_env_value = local_env_line.partition("=")
+        target_name = _LOCAL_ENV_NAMES.get(local_env_name.strip())
+        if not separator or not target_name or os.environ.get(target_name):
+            continue
+        local_env_value = local_env_value.strip()
+        if (
+            len(local_env_value) >= 2
+            and local_env_value[0] == local_env_value[-1]
+            and local_env_value[0] in ("'", '"')
+        ):
+            local_env_value = local_env_value[1:-1]
+        if local_env_value:
+            os.environ[target_name] = local_env_value
 
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "")
 
@@ -100,6 +108,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
+    "cloudinary",
 
     "core.apps.CoreConfig",
     "accounts.apps.AccountsConfig",
@@ -214,6 +224,22 @@ MEDIA_ROOT = BASE_DIR / "media"
 PRIVATE_DICOM_ROOT = BASE_DIR / "private_uploads" / "dicom_studies"
 PRIVATE_REPORT_ROOT = BASE_DIR / "private_uploads" / "reports"
 PRIVATE_PREVIEW_CACHE_ROOT = BASE_DIR / "private_uploads" / "preview_cache"
+CLOUDINARY_URL = os.environ.get("CLOUDINARY_URL", "").strip()
+SANAD_CLOUDINARY_ENABLED = env_flag(
+    "SANAD_CLOUDINARY_ENABLED", default=bool(CLOUDINARY_URL)
+)
+if SANAD_CLOUDINARY_ENABLED and not CLOUDINARY_URL:
+    raise ImproperlyConfigured(
+        "CLOUDINARY_URL is required when SANAD_CLOUDINARY_ENABLED is enabled."
+    )
+SANAD_CLOUDINARY_FOLDER = os.environ.get(
+    "SANAD_CLOUDINARY_FOLDER", "sanad/private-medical"
+).strip().strip("/")
+if not SANAD_CLOUDINARY_FOLDER:
+    raise ImproperlyConfigured("SANAD_CLOUDINARY_FOLDER cannot be empty.")
+CLOUDINARY_PRIVATE_CACHE_ROOT = (
+    BASE_DIR / "private_uploads" / "cloudinary_cache"
+)
 PREVIEW_CACHE_MAX_ENTRIES = int(os.environ.get("PREVIEW_CACHE_MAX_ENTRIES", "1000"))
 REPORT_MAX_UPLOAD_SIZE = int(
     os.environ.get("REPORT_MAX_UPLOAD_SIZE", 20 * 1024 * 1024)

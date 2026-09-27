@@ -602,9 +602,14 @@ class AINoduleCandidateTests(TestCase):
         )
         self.client.force_login(self.user)
 
-        response = self.client.get(
-            reverse("radiology:candidate_preview", args=(candidate.pk,))
-        )
+        with mock.patch.object(
+            self.study.zip_file.storage,
+            "path",
+            return_value="synthetic-study.zip",
+        ):
+            response = self.client.get(
+                reverse("radiology:candidate_preview", args=(candidate.pk,))
+            )
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response["Cache-Control"], "private, max-age=300")
@@ -712,16 +717,21 @@ class AINoduleCandidateReviewTests(TestCase):
                 "direction": [1, 0, 0, 0, 1, 0, 0, 0, 1],
             },
         )
-        response = self.client.post(
-            self.url,
-            {
-                "decision": AINoduleCandidateReview.Decision.CORRECTED,
-                "corrected_center_x": "11",
-                "corrected_center_y": "20",
-                "corrected_diameter_mm": "7.8",
-                "clinician_notes": "تصحيح اصطناعي للاختبار.",
-            },
-        )
+        with mock.patch.object(
+            self.study.zip_file.storage,
+            "path",
+            return_value="synthetic/review-study.zip",
+        ):
+            response = self.client.post(
+                self.url,
+                {
+                    "decision": AINoduleCandidateReview.Decision.CORRECTED,
+                    "corrected_center_x": "11",
+                    "corrected_center_y": "20",
+                    "corrected_diameter_mm": "7.8",
+                    "clinician_notes": "تصحيح اصطناعي للاختبار.",
+                },
+            )
 
         self.assertEqual(response.status_code, 302)
         review = AINoduleCandidateReview.objects.get()

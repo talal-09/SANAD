@@ -108,9 +108,16 @@ def _create(request, form_class, title, success_message, prepare=None):
         if prepare:
             prepare(instance)
         instance.full_clean()
-        instance.save()
-        messages.success(request, success_message)
-        return redirect("radiology:index")
+        try:
+            instance.save()
+        except OSError:
+            form.add_error(
+                None,
+                "تعذر حفظ الملف في التخزين الآمن. حاول مرة أخرى أو تواصل مع مسؤول النظام.",
+            )
+        else:
+            messages.success(request, success_message)
+            return redirect("radiology:index")
     return render(request, "radiology/form.html", {"form": form, "title": title})
 
 
@@ -216,7 +223,23 @@ def upload_study(request: HttpRequest) -> HttpResponse:
         study = form.save(commit=False)
         study.uploaded_by = request.user
         study.processing_status = ImagingStudy.ProcessingStatus.VERIFYING
-        study.save()
+        try:
+            study.save()
+        except OSError:
+            form.add_error(
+                None,
+                "تعذر رفع الدراسة إلى التخزين الآمن. حاول مرة أخرى أو تواصل مع مسؤول النظام.",
+            )
+            return render(
+                request,
+                "radiology/study_upload.html",
+                {
+                    "form": form,
+                    "max_upload_mb": settings.DICOM_ZIP_MAX_UPLOAD_SIZE
+                    // (1024 * 1024),
+                },
+                status=503,
+            )
         try:
             metadata = validate_dicom_zip(study.zip_file.path)
         except DicomStudyValidationError as exc:
