@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#5b43d6">
+  <meta name="description" content="SANAD is an Arabic-first research prototype that helps radiologists review potential pulmonary nodules in CT scans within a clear clinical workflow.">
+  <meta property="og:title" content="SANAD | Radiologist Assistant">
+  <meta property="og:description" content="A clear workflow for reviewing AI-assisted chest CT findings while keeping the final decision with the radiologist.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://talal-09.github.io/SANAD/en/">
+  <title>SANAD | Radiologist Assistant</title>
+  <link rel="canonical" href="https://talal-09.github.io/SANAD/en/">
+  <link rel="alternate" hreflang="ar" href="https://talal-09.github.io/SANAD/">
+  <link rel="alternate" hreflang="en" href="https://talal-09.github.io/SANAD/en/">
+  <link rel="alternate" hreflang="x-default" href="https://talal-09.github.io/SANAD/">
+  <link rel="stylesheet" href="../assets/styles.css">
+  <script src="../assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" id="top">
+    <div class="container nav-wrap">
+      <a class="brand" href="#top" aria-label="SANAD home">
+        <span class="brand-mark" aria-hidden="true">س</span>
+        <span class="brand-copy"><strong>SANAD</strong><small>RADIOLOGIST ASSISTANT</small></span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="sr-only">Open menu</span>
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="site-nav" id="site-nav" aria-label="Main navigation">
+        <a href="#journey">Workflow</a>
+        <a href="#demo">Interactive demo</a>
+        <a href="#results">Results</a>
+        <a href="#safety">Safety</a>
+        <a class="language-switch" href="../" hreflang="ar" lang="ar" dir="rtl" aria-label="عرض الصفحة بالعربية">العربية</a>
+        <a class="button button-small button-outline" href="https://github.com/talal-09/SANAD">View on GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="hero-glow hero-glow-one" aria-hidden="true"></div>
+      <div class="hero-glow hero-glow-two" aria-hidden="true"></div>
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <span class="eyebrow"><span class="status-dot" aria-hidden="true"></span> Research and demonstration prototype</span>
+          <h1>From a CT scan to a clearer clinical decision, <span>in one workflow.</span></h1>
+          <p class="hero-lead">SANAD helps radiologists review potential pulmonary nodules, correct their location and measurements, and follow each case without moving between disconnected systems.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#demo">Explore the workflow</a>
+            <a class="button button-quiet" href="#results">View model results</a>
+          </div>
+          <p class="medical-note">Clinical decision-support prototype. The final decision belongs to the radiologist.</p>
+        </div>
+
+        <div class="product-window reveal" aria-label="Simplified pulmonary nodule review interface">
+          <div class="window-bar"><span></span><span></span><span></span><p>Review potential finding</p></div>
+          <div class="window-body">
+            <div class="mock-sidebar">
+              <div class="mini-brand">س</div>
+              <span class="side-line active"></span><span class="side-line"></span><span class="side-line short"></span>
+            </div>
+            <div class="scan-area">
+              <div class="scan-meta"><span>CT slice</span><strong>Demo case 001</strong></div>
+              <div class="ct-frame" role="img" aria-label="Synthetic illustration of a chest CT slice, not a patient image">
+                <div class="lung lung-right"></div><div class="lung lung-left"></div>
+                <div class="candidate-ring"><span>9.4 mm</span></div>
+              </div>
+              <div class="decision-row"><button type="button" tabindex="-1">Accept</button><button type="button" tabindex="-1">Adjust</button><button type="button" tabindex="-1">Reject</button></div>
+            </div>
+          </div>
+          <div class="confidence-chip"><span>Model confidence</span><strong>95%</strong><small>Supporting information only</small></div>
+        </div>
+      </div>
+
+      <div class="container proof-grid reveal" aria-label="Project summary">
+        <div><strong>84</strong><span>independent test scans</span></div>
+        <div><strong>95.1%</strong><span>test sensitivity</span></div>
+        <div><strong>74</strong><span>automated tests passing</span></div>
+        <div><strong>5</strong><span>clinical workflow steps</span></div>
+      </div>
+    </section>
+
+    <section class="section problem-section">
+      <div class="container split-grid">
+        <div class="section-copy reveal">
+          <span class="section-kicker">The problem</span>
+          <h2>An AI result alone is not enough.</h2>
+          <p>A radiologist needs to inspect the finding, adjust its measurement, document a decision, and know what happens next. SANAD brings those tasks into one clear experience.</p>
+        </div>
+        <div class="comparison reveal">
+          <div class="comparison-card muted-card"><span>Before</span><strong>Scattered tools and files</strong><p>Manual handoffs, unclear steps, and model output separated from the clinical decision.</p></div>
+          <div class="comparison-arrow" aria-hidden="true">→</div>
+          <div class="comparison-card strong-card"><span>With SANAD</span><strong>One clinical workflow</strong><p>One required action at each stage, while the final decision remains with the clinician.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section journey-section" id="journey">
+      <div class="container">
+        <div class="section-heading reveal"><span class="section-kicker">The workflow</span><h2>Five steps, without confusing menus.</h2><p>The system presents the action required now and moves the case to the next stage.</p></div>
+        <ol class="journey-grid reveal">
+          <li><span>01</span><strong>Patient</strong><p>Select an existing record or register a new case.</p></li>
+          <li><span>02</span><strong>Imaging</strong><p>Upload a CT study and validate its files safely.</p></li>
+          <li><span>03</span><strong>Analysis</strong><p>Detect potential findings with a MONAI model.</p></li>
+          <li><span>04</span><strong>Clinical review</strong><p>Accept, correct, or reject each candidate.</p></li>
+          <li><span>05</span><strong>Follow-up</strong><p>Create a plan and notifications automatically.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section demo-section" id="demo">
+      <div class="container">
+        <div class="section-heading centered reveal"><span class="section-kicker">Interactive demo</span><h2>See what the radiologist sees at every step.</h2><p>This demonstration uses synthetic data and does not represent a real patient.</p></div>
+        <div class="demo-shell reveal">
+          <div class="demo-steps" role="tablist" aria-label="SANAD workflow steps">
+            <button role="tab" aria-selected="true" aria-controls="demo-panel" data-step="0"><span>1</span>Patient</button>
+            <button role="tab" aria-selected="false" aria-controls="demo-panel" data-step="1"><span>2</span>Imaging</button>
+            <button role="tab" aria-selected="false" aria-controls="demo-panel" data-step="2"><span>3</span>Analysis</button>
+            <button role="tab" aria-selected="false" aria-controls="demo-panel" data-step="3"><span>4</span>Review</button>
+            <button role="tab" aria-selected="false" aria-controls="demo-panel" data-step="4"><span>5</span>Follow-up</button>
+          </div>
+          <div class="demo-panel" id="demo-panel" role="tabpanel" aria-live="polite">
+            <div class="demo-panel-copy">
+              <span class="demo-label" id="demo-label">Step one</span>
+              <h3 id="demo-title">Start with the patient</h3>
+              <p id="demo-description">SANAD shows only the case information needed for the task and restricts access by organization and role.</p>
+              <ul id="demo-points"><li>Synthetic case identifier</li><li>Clear and concise record</li><li>Role- and organization-based access</li></ul>
+              <button class="button button-primary demo-next" type="button">Next step</button>
+            </div>
+            <div class="demo-visual" id="demo-visual" data-view="patient" aria-hidden="true">
+              <div class="demo-card"><span class="skeleton wide"></span><span class="skeleton"></span><span class="skeleton short"></span><div class="demo-record"><i>01</i><div><strong>Demo case 001</strong><small>Awaiting CT upload</small></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section results-section" id="results">
+      <div class="container results-grid">
+        <div class="section-copy reveal">
+          <span class="section-kicker">Test results</span>
+          <h2>High sensitivity, with clear room for improvement.</h2>
+          <p>The model was tested on 84 held-out scans containing 102 nodules. It detected 97 and missed 5, while producing false positives that require radiologist review.</p>
+          <div class="result-note"><strong>How should this result be read?</strong><p>SANAD demonstrates that the technical workflow operates end to end. These numbers do not represent clinical validation or approval for clinical use.</p></div>
+        </div>
+        <div class="metric-card reveal">
+          <div class="metric-primary"><span>Sensitivity</span><strong>95.1%</strong><small>97 of 102 nodules</small></div>
+          <div class="metric-bar" aria-label="Sensitivity 95.1 percent"><span style="--value:95.1%"></span></div>
+          <div class="metric-row"><div><span>Positive predictive value</span><strong>31.5%</strong></div><div><span>False positives per scan</span><strong>2.51</strong></div></div>
+          <p>The decision threshold was selected on validation data before it was applied to the test set.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section safety-section" id="safety">
+      <div class="container">
+        <div class="section-heading reveal"><span class="section-kicker">Safety and responsibility</span><h2>Designed around clinical review and case privacy.</h2></div>
+        <div class="safety-grid reveal">
+          <article><span>01</span><h3>Organization isolation</h3><p>Users cannot access records that belong to another organization.</p></article>
+          <article><span>02</span><h3>Protected medical files</h3><p>DICOM studies are stored outside the public media directory.</p></article>
+          <article><span>03</span><h3>Required human review</h3><p>Every result remains a candidate until a clinician accepts or corrects it.</p></article>
+          <article><span>04</span><h3>Audit trail</h3><p>The system records review decisions and important changes.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing-section">
+      <div class="container closing-card reveal">
+        <div><span class="section-kicker light">Open-source project</span><h2>SANAD understands the workflow and leaves the decision to the clinician.</h2><p>Explore the source code, model card, and security tests in the repository.</p></div>
+        <a class="button button-light" href="https://github.com/talal-09/SANAD">Open the project on GitHub</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-row"><div class="brand footer-brand"><span class="brand-mark">س</span><span class="brand-copy"><strong>SANAD</strong><small>Radiologist Assistant</small></span></div><p>Research and demonstration prototype — <span id="year"></span></p></div>
+  </footer>
+</body>
+</html>

@@ -10,13 +10,32 @@
     navToggle?.setAttribute('aria-expanded', 'false');
   }));
 
-  const steps = [
-    { label: 'الخطوة الأولى', title: 'ابدأ بالمريض', description: 'يعرض سَنَد بيانات الحالة الأساسية فقط، ويقيد الوصول بحسب منشأة المستخدم وصلاحياته.', points: ['رقم حالة تجريبي', 'سجل واضح ومختصر', 'صلاحيات حسب الدور والمنشأة'], view: 'patient', record: 'حالة تجريبية 001', status: 'بانتظار رفع الأشعة' },
-    { label: 'الخطوة الثانية', title: 'ارفع دراسة CT', description: 'يتحقق النظام من ملف ZIP ومحتوى DICOM قبل حفظ الدراسة في مساحة خاصة غير عامة.', points: ['منع الملفات التنفيذية', 'فحص اتساق الدراسة', 'حدود للحجم ونسبة الضغط'], view: 'scan', record: 'دراسة صدر CT', status: 'تم التحقق من الملفات' },
-    { label: 'الخطوة الثالثة', title: 'ابدأ التحليل', description: 'يشغل سَنَد نموذج MONAI في عملية معزولة ويحوّل المخرجات إلى مواضع قابلة للمراجعة.', points: ['تحليل ثلاثي الأبعاد', 'نتائج أولية غير معتمدة', 'تتبع حالة المهمة'], view: 'analysis', record: 'تحليل النموذج', status: 'اكتملت المعالجة' },
-    { label: 'الخطوة الرابعة', title: 'ثبّت قرار الطبيب', description: 'يراجع الطبيب كل موضع، ويحرك علامة القياس عند الحاجة قبل اعتماد القرار.', points: ['قبول أو تصحيح أو رفض', 'حفظ الإحداثيات المصححة', 'توثيق المراجع والوقت'], view: 'decision', record: 'موضع محتمل 9.4 مم', status: 'بانتظار قرار الطبيب' },
-    { label: 'الخطوة الخامسة', title: 'تابع الحالة', description: 'ينشئ سَنَد خطة المتابعة والتنبيهات المستحقة تلقائيًا وفق قرار الطبيب.', points: ['موعد متابعة واضح', 'تنبيهات تلقائية', 'سجل حالة قابل للتتبع'], view: 'followup', record: 'متابعة بعد 3 أشهر', status: 'الخطة جاهزة' }
-  ];
+  const locale = document.documentElement.lang === 'en' ? 'en' : 'ar';
+  const rtl = document.documentElement.dir === 'rtl';
+  const content = {
+    ar: {
+      next: 'الخطوة التالية', restart: 'العودة للبداية',
+      steps: [
+        { label: 'الخطوة الأولى', title: 'ابدأ بالمريض', description: 'يعرض سَنَد بيانات الحالة الأساسية فقط، ويقيد الوصول بحسب منشأة المستخدم وصلاحياته.', points: ['رقم حالة تجريبي', 'سجل واضح ومختصر', 'صلاحيات حسب الدور والمنشأة'], view: 'patient', record: 'حالة تجريبية 001', status: 'بانتظار رفع الأشعة' },
+        { label: 'الخطوة الثانية', title: 'ارفع دراسة CT', description: 'يتحقق النظام من ملف ZIP ومحتوى DICOM قبل حفظ الدراسة في مساحة خاصة غير عامة.', points: ['منع الملفات التنفيذية', 'فحص اتساق الدراسة', 'حدود للحجم ونسبة الضغط'], view: 'scan', record: 'دراسة صدر CT', status: 'تم التحقق من الملفات' },
+        { label: 'الخطوة الثالثة', title: 'ابدأ التحليل', description: 'يشغل سَنَد نموذج MONAI في عملية معزولة ويحوّل المخرجات إلى مواضع قابلة للمراجعة.', points: ['تحليل ثلاثي الأبعاد', 'نتائج أولية غير معتمدة', 'تتبع حالة المهمة'], view: 'analysis', record: 'تحليل النموذج', status: 'اكتملت المعالجة' },
+        { label: 'الخطوة الرابعة', title: 'ثبّت قرار الطبيب', description: 'يراجع الطبيب كل موضع، ويحرك علامة القياس عند الحاجة قبل اعتماد القرار.', points: ['قبول أو تصحيح أو رفض', 'حفظ الإحداثيات المصححة', 'توثيق المراجع والوقت'], view: 'decision', record: 'موضع محتمل 9.4 مم', status: 'بانتظار قرار الطبيب' },
+        { label: 'الخطوة الخامسة', title: 'تابع الحالة', description: 'ينشئ سَنَد خطة المتابعة والتنبيهات المستحقة تلقائيًا وفق قرار الطبيب.', points: ['موعد متابعة واضح', 'تنبيهات تلقائية', 'سجل حالة قابل للتتبع'], view: 'followup', record: 'متابعة بعد 3 أشهر', status: 'الخطة جاهزة' }
+      ]
+    },
+    en: {
+      next: 'Next step', restart: 'Back to the beginning',
+      steps: [
+        { label: 'Step one', title: 'Start with the patient', description: 'SANAD shows only the case information needed for the task and restricts access by organization and role.', points: ['Synthetic case identifier', 'Clear and concise record', 'Role- and organization-based access'], view: 'patient', record: 'Demo case 001', status: 'Awaiting CT upload' },
+        { label: 'Step two', title: 'Upload the CT study', description: 'The system validates the ZIP archive and DICOM content before storing the study in a protected private location.', points: ['Executable files blocked', 'Study consistency checks', 'Size and compression-ratio limits'], view: 'scan', record: 'Chest CT study', status: 'Files validated' },
+        { label: 'Step three', title: 'Run the analysis', description: 'SANAD runs the MONAI model in an isolated process and converts its output into reviewable candidates.', points: ['Three-dimensional analysis', 'Unverified preliminary results', 'Task status tracking'], view: 'analysis', record: 'Model analysis', status: 'Processing complete' },
+        { label: 'Step four', title: 'Record the clinical decision', description: 'The radiologist reviews every candidate and adjusts the measurement marker when needed before confirming the decision.', points: ['Accept, correct, or reject', 'Save corrected coordinates', 'Record the reviewer and time'], view: 'decision', record: 'Potential finding, 9.4 mm', status: 'Awaiting clinical decision' },
+        { label: 'Step five', title: 'Follow up the case', description: 'SANAD creates the follow-up plan and due notifications automatically from the clinician’s decision.', points: ['Clear follow-up date', 'Automatic notifications', 'Traceable case history'], view: 'followup', record: 'Follow-up in 3 months', status: 'Plan ready' }
+      ]
+    }
+  };
+  const strings = content[locale];
+  const steps = strings.steps;
 
   const tabs = [...document.querySelectorAll('.demo-steps button')];
   const panel = document.querySelector('#demo-panel');
@@ -49,15 +68,15 @@
     visual.dataset.view = step.view;
     recordTitle.textContent = step.record;
     recordStatus.textContent = step.status;
-    next.textContent = active === steps.length - 1 ? 'العودة للبداية' : 'الخطوة التالية';
+    next.textContent = active === steps.length - 1 ? strings.restart : strings.next;
     if (focus) tabs[active].focus();
   }
 
   tabs.forEach((tab, index) => {
     tab.addEventListener('click', () => setStep(index));
     tab.addEventListener('keydown', (event) => {
-      if (event.key === 'ArrowLeft') { event.preventDefault(); setStep(active + 1, true); }
-      if (event.key === 'ArrowRight') { event.preventDefault(); setStep(active - 1, true); }
+      if (event.key === 'ArrowLeft') { event.preventDefault(); setStep(active + (rtl ? 1 : -1), true); }
+      if (event.key === 'ArrowRight') { event.preventDefault(); setStep(active + (rtl ? -1 : 1), true); }
     });
   });
   next?.addEventListener('click', () => setStep(active + 1));

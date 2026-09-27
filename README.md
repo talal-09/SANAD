@@ -6,6 +6,8 @@
 
 **[Explore the live SANAD showcase](https://talal-09.github.io/SANAD/)**
 
+The showcase supports Arabic and English through the language switch in the main navigation.
+
 SANAD is an Arabic-first research prototype that helps radiologists review potential pulmonary nodules in CT scans, correct their location and measurements, and move each case through a clear follow-up workflow.
 
 > SANAD is an educational and research project. It is not a medical device and must not be used for diagnosis or independent treatment decisions. The final decision always belongs to a qualified clinician.
@@ -13,7 +15,7 @@ SANAD is an Arabic-first research prototype that helps radiologists review poten
 ## Project Preview
 
 <p align="center">
-  <img src="docs/assets/sanad-overview.svg" alt="SANAD interface preview showing a potential pulmonary nodule in a CT scan" width="100%">
+  <img src="docs/assets/sanad-english.png" alt="Screenshot of the English SANAD showcase with the language switch and CT review interface" width="100%">
 </p>
 
 <p align="center">
