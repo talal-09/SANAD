@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">معاينة واجهة سَنَد</title>
+  <desc id="desc">واجهة عربية تعرض مراجعة عقدة رئوية محتملة في صورة أشعة مقطعية ضمن مسار طبي واضح.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fbfaff"/>
+      <stop offset="1" stop-color="#f1f8fa"/>
+    </linearGradient>
+    <radialGradient id="scan" cx="50%" cy="46%" r="64%">
+      <stop offset="0" stop-color="#c6c8cf"/>
+      <stop offset="0.22" stop-color="#777b89"/>
+      <stop offset="0.52" stop-color="#363945"/>
+      <stop offset="1" stop-color="#0f1018"/>
+    </radialGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="20" stdDeviation="24" flood-color="#291f60" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="675" rx="30" fill="url(#bg)"/>
+  <circle cx="1045" cy="110" r="210" fill="#eeeafd" opacity="0.72"/>
+  <circle cx="130" cy="610" r="180" fill="#e9f7f9" opacity="0.75"/>
+
+  <g font-family="Segoe UI,Tahoma,Arial,sans-serif">
+    <g transform="translate(1080 56)">
+      <rect x="0" y="0" width="50" height="50" rx="15" fill="#5b43d6"/>
+      <text x="25" y="34" text-anchor="middle" font-size="24" font-weight="800" fill="#fff">س</text>
+      <text x="-14" y="22" text-anchor="end" font-size="18" font-weight="800" fill="#171433">سَنَد</text>
+      <text x="-14" y="40" text-anchor="end" font-size="10" letter-spacing="2" fill="#66637a">SANAD</text>
+    </g>
+
+    <g transform="translate(650 154)">
+      <circle cx="472" cy="7" r="5" fill="#22a980"/>
+      <circle cx="472" cy="7" r="11" fill="none" stroke="#22a980" stroke-opacity="0.16" stroke-width="7"/>
+      <text x="454" y="13" text-anchor="end" font-size="15" font-weight="700" fill="#5b43d6">نموذج أولي للعرض والبحث</text>
+      <text x="472" y="96" text-anchor="end" font-size="56" font-weight="800" fill="#171433">من صورة الأشعة إلى</text>
+      <text x="472" y="164" text-anchor="end" font-size="56" font-weight="800" fill="#171433">قرار طبي أوضح،</text>
+      <text x="472" y="232" text-anchor="end" font-size="56" font-weight="800" fill="#5b43d6">بمسار واحد.</text>
+      <text x="472" y="278" text-anchor="end" font-size="18" fill="#66637a">مراجعة الموضع وقياسه ثم متابعة الحالة</text>
+      <text x="472" y="310" text-anchor="end" font-size="18" fill="#66637a">ضمن تجربة عربية واضحة وآمنة.</text>
+      <rect x="305" y="347" width="167" height="52" rx="14" fill="#5b43d6"/>
+      <text x="388" y="380" text-anchor="middle" font-size="16" font-weight="750" fill="#fff">مسار الطبيب</text>
+      <rect x="126" y="347" width="165" height="52" rx="14" fill="#fff" stroke="#e3e0ef"/>
+      <text x="208" y="380" text-anchor="middle" font-size="16" font-weight="750" fill="#171433">نتائج النموذج</text>
+      <text x="472" y="435" text-anchor="end" font-size="13" fill="#777287">أداة مساندة للقرار الطبي — القرار النهائي للطبيب.</text>
+    </g>
+
+    <g transform="translate(68 132)" filter="url(#shadow)">
+      <rect width="500" height="430" rx="25" fill="#fff" stroke="#ded9f2"/>
+      <rect width="500" height="48" rx="25" fill="#fbfaff"/>
+      <path d="M0 48h500" stroke="#e3e0ef"/>
+      <circle cx="28" cy="24" r="5" fill="#d5d0e5"/>
+      <circle cx="46" cy="24" r="5" fill="#d5d0e5"/>
+      <circle cx="64" cy="24" r="5" fill="#d5d0e5"/>
+      <text x="250" y="29" text-anchor="middle" font-size="11" fill="#706b81">مراجعة موضع محتمل</text>
+      <rect x="20" y="67" width="58" height="342" rx="14" fill="#f8f7fd"/>
+      <rect x="33" y="85" width="32" height="32" rx="10" fill="#5b43d6"/>
+      <text x="49" y="108" text-anchor="middle" font-size="17" font-weight="800" fill="#fff">س</text>
+      <rect x="30" y="150" width="38" height="8" rx="4" fill="#5b43d6"/>
+      <rect x="30" y="174" width="38" height="8" rx="4" fill="#ddd9ed"/>
+      <rect x="30" y="198" width="25" height="8" rx="4" fill="#ddd9ed"/>
+      <text x="455" y="84" text-anchor="end" font-size="12" fill="#777287">شريحة CT</text>
+      <text x="110" y="84" text-anchor="start" font-size="12" font-weight="700" fill="#171433">حالة تجريبية 001</text>
+      <rect x="100" y="101" width="370" height="236" rx="18" fill="url(#scan)"/>
+      <ellipse cx="246" cy="220" rx="74" ry="89" fill="#171923" opacity="0.90"/>
+      <ellipse cx="336" cy="220" rx="74" ry="89" fill="#171923" opacity="0.90"/>
+      <circle cx="336" cy="185" r="31" fill="none" stroke="#55e0c0" stroke-width="3"/>
+      <circle cx="336" cy="185" r="38" fill="none" stroke="#55e0c0" stroke-opacity="0.18" stroke-width="7"/>
+      <path d="M293 185h86M336 142v86" stroke="#55e0c0" stroke-width="1.5"/>
+      <rect x="344" y="139" width="62" height="24" rx="7" fill="#55e0c0"/>
+      <text x="375" y="156" text-anchor="middle" font-size="10" font-weight="800" fill="#09251e">9.4 مم</text>
+      <g transform="translate(100 354)">
+        <rect width="112" height="38" rx="10" fill="#fff" stroke="#e3e0ef"/>
+        <text x="56" y="24" text-anchor="middle" font-size="11" fill="#5d596f">رفض</text>
+        <rect x="128" width="112" height="38" rx="10" fill="#fff" stroke="#e3e0ef"/>
+        <text x="184" y="24" text-anchor="middle" font-size="11" fill="#5d596f">تصحيح</text>
+        <rect x="256" width="114" height="38" rx="10" fill="#fff" stroke="#e3e0ef"/>
+        <text x="313" y="24" text-anchor="middle" font-size="11" fill="#5d596f">مقبولة</text>
+      </g>
+      <g transform="translate(-26 330)">
+        <rect width="145" height="92" rx="17" fill="#fff" stroke="#eeeafd"/>
+        <text x="72" y="28" text-anchor="middle" font-size="10" fill="#66637a">ثقة النموذج</text>
+        <text x="72" y="61" text-anchor="middle" font-size="27" font-weight="800" fill="#5b43d6">95%</text>
+        <text x="72" y="78" text-anchor="middle" font-size="8" fill="#8a8499">معلومة مساعدة فقط</text>
+      </g>
+    </g>
+  </g>
+</svg>

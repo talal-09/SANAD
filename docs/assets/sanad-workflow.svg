@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">مسار العمل في سَنَد</title>
+  <desc id="desc">خمس خطوات تبدأ بالمريض والأشعة والتحليل ثم قرار الطبيب وتنتهي بالمتابعة.</desc>
+  <defs>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#725cf0"/>
+      <stop offset="1" stop-color="#5b43d6"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="22" stdDeviation="26" flood-color="#000" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="675" rx="30" fill="#17142e"/>
+  <circle cx="1080" cy="80" r="220" fill="#5b43d6" opacity="0.12"/>
+  <circle cx="110" cy="640" r="230" fill="#087f98" opacity="0.10"/>
+
+  <g font-family="Segoe UI,Tahoma,Arial,sans-serif">
+    <text x="1100" y="72" text-anchor="end" font-size="14" font-weight="800" fill="#a999ff">تجربة تفاعلية</text>
+    <text x="1100" y="125" text-anchor="end" font-size="38" font-weight="800" fill="#fff">مسار الطبيب في خمس خطوات واضحة</text>
+    <text x="1100" y="160" text-anchor="end" font-size="16" fill="#bdb8cd">بيانات اصطناعية للعرض — لا تمثل مريضًا حقيقيًا.</text>
+
+    <g transform="translate(70 205)">
+      <rect width="1060" height="390" rx="26" fill="#211d3b" stroke="#3e3959"/>
+      <path d="M0 84h1060" stroke="#3e3959"/>
+      <g font-size="13" font-weight="700">
+        <g transform="translate(848 0)"><rect width="212" height="84" fill="#2b2648"/><circle cx="167" cy="42" r="15" fill="url(#accent)"/><text x="167" y="47" text-anchor="middle" fill="#fff">1</text><text x="132" y="48" text-anchor="end" fill="#fff">المريض</text></g>
+        <g transform="translate(636 0)"><circle cx="167" cy="42" r="15" fill="#393451"/><text x="167" y="47" text-anchor="middle" fill="#aaa5bd">2</text><text x="132" y="48" text-anchor="end" fill="#aaa5bd">الأشعة</text></g>
+        <g transform="translate(424 0)"><circle cx="167" cy="42" r="15" fill="#393451"/><text x="167" y="47" text-anchor="middle" fill="#aaa5bd">3</text><text x="132" y="48" text-anchor="end" fill="#aaa5bd">التحليل</text></g>
+        <g transform="translate(212 0)"><circle cx="167" cy="42" r="15" fill="#393451"/><text x="167" y="47" text-anchor="middle" fill="#aaa5bd">4</text><text x="132" y="48" text-anchor="end" fill="#aaa5bd">قرار الطبيب</text></g>
+        <g><circle cx="167" cy="42" r="15" fill="#393451"/><text x="167" y="47" text-anchor="middle" fill="#aaa5bd">5</text><text x="132" y="48" text-anchor="end" fill="#aaa5bd">المتابعة</text></g>
+      </g>
+
+      <g transform="translate(588 120)">
+        <text x="390" y="12" text-anchor="end" font-size="12" font-weight="800" fill="#a999ff">الخطوة الأولى</text>
+        <text x="390" y="58" text-anchor="end" font-size="31" font-weight="800" fill="#fff">ابدأ بالمريض</text>
+        <text x="390" y="92" text-anchor="end" font-size="14" fill="#c2bed0">يعرض سَنَد بيانات الحالة الأساسية فقط</text>
+        <text x="390" y="119" text-anchor="end" font-size="14" fill="#c2bed0">ويقيد الوصول حسب الدور والمنشأة.</text>
+        <g font-size="13" fill="#dedbe7">
+          <circle cx="380" cy="157" r="4" fill="#55e0c0"/><text x="365" y="162" text-anchor="end">رقم حالة تجريبي</text>
+          <circle cx="380" cy="190" r="4" fill="#55e0c0"/><text x="365" y="195" text-anchor="end">سجل واضح ومختصر</text>
+          <circle cx="380" cy="223" r="4" fill="#55e0c0"/><text x="365" y="228" text-anchor="end">صلاحيات حسب الدور والمنشأة</text>
+        </g>
+      </g>
+
+      <g transform="translate(54 122)" filter="url(#shadow)">
+        <rect width="450" height="230" rx="20" fill="#292544" stroke="#494361"/>
+        <rect x="28" y="28" width="220" height="9" rx="5" fill="#4b4663"/>
+        <rect x="28" y="51" width="345" height="9" rx="5" fill="#4b4663"/>
+        <rect x="28" y="74" width="150" height="9" rx="5" fill="#4b4663"/>
+        <rect x="28" y="112" width="394" height="88" rx="14" fill="#363052"/>
+        <rect x="48" y="132" width="48" height="48" rx="13" fill="url(#accent)"/>
+        <text x="72" y="163" text-anchor="middle" font-size="18" font-weight="800" fill="#fff">س</text>
+        <text x="120" y="150" text-anchor="start" font-size="14" font-weight="750" fill="#fff">حالة تجريبية 001</text>
+        <text x="120" y="178" text-anchor="start" font-size="12" fill="#aaa5bd">بانتظار رفع الأشعة</text>
+      </g>
+    </g>
+
+    <g transform="translate(70 618)">
+      <text x="1060" y="0" text-anchor="end" font-size="12" fill="#8f89a5">سَنَد — تقنية تفهم المسار، وتترك القرار للطبيب.</text>
+    </g>
+  </g>
+</svg>
