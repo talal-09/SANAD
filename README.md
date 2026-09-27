@@ -15,11 +15,11 @@ SANAD is an Arabic-first research prototype that helps radiologists review poten
 ## Project Preview
 
 <p align="center">
-  <img src="docs/assets/sanad-english.png" alt="Screenshot of the English SANAD showcase with the language switch and CT review interface" width="100%">
+  <img src="docs/assets/sanad-overview.svg" alt="Arabic SANAD showcase with the language switch and CT review interface" width="100%">
 </p>
 
 <p align="center">
-  <img src="docs/assets/sanad-workflow.svg" alt="SANAD clinical workflow preview from patient registration to follow-up" width="100%">
+  <img src="docs/assets/sanad-english.png" alt="Screenshot of the English SANAD showcase with the language switch and CT review interface" width="100%">
 </p>
 
 > These interface previews use synthetic demonstration data only.
