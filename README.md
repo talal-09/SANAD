@@ -2,41 +2,44 @@
 
 [![Tests](https://github.com/talal-09/SANAD/actions/workflows/tests.yml/badge.svg)](https://github.com/talal-09/SANAD/actions/workflows/tests.yml)
 
-**[استعرض سَنَد مباشرة](https://talal-09.github.io/SANAD/)**
+**English** · [العربية](README.ar.md)
 
-سَنَد نموذج أولي عربي يساعد طبيب الأشعة على مراجعة العقد الرئوية المحتملة في صور CT، وتصحيح موضعها وقياسها، ثم متابعة الحالة ضمن مسار عمل واضح.
+**[Explore the live SANAD showcase](https://talal-09.github.io/SANAD/)**
 
-> مشروع بحثي وتجريبي للعرض. لا يُستخدم للتشخيص أو لاتخاذ قرار علاجي مستقل، والقرار النهائي للطبيب.
+SANAD is an Arabic-first research prototype that helps radiologists review potential pulmonary nodules in CT scans, correct their location and measurements, and move each case through a clear follow-up workflow.
 
-## معاينة المشروع
+> SANAD is an educational and research project. It is not a medical device and must not be used for diagnosis or independent treatment decisions. The final decision always belongs to a qualified clinician.
+
+## Project Preview
 
 <p align="center">
-  <img src="docs/assets/sanad-overview.svg" alt="معاينة واجهة سَنَد لمراجعة موضع محتمل في صورة أشعة مقطعية" width="100%">
+  <img src="docs/assets/sanad-overview.svg" alt="SANAD interface preview showing a potential pulmonary nodule in a CT scan" width="100%">
 </p>
 
 <p align="center">
-  <img src="docs/assets/sanad-workflow.svg" alt="معاينة مسار الطبيب في سَنَد من تسجيل الحالة إلى المتابعة" width="100%">
+  <img src="docs/assets/sanad-workflow.svg" alt="SANAD clinical workflow preview from patient registration to follow-up" width="100%">
 </p>
 
-> الصور معاينات توضيحية مبنية على واجهة العرض، وتستخدم بيانات اصطناعية فقط.
+> These interface previews use synthetic demonstration data only.
 
-## ماذا يقدم؟
+## What SANAD Does
 
-1. تسجيل المريض وربطه بالمنشأة الصحية.
-2. رفع دراسة CT محمية.
-3. تشغيل نموذج MONAI لاكتشاف المواضع المحتملة.
-4. مراجعة الطبيب لكل موضع: قبول، تصحيح، أو رفض.
-5. إنشاء المتابعة والتنبيهات تلقائيًا.
+1. Registers a patient and links the case to a healthcare organization.
+2. Accepts a protected CT study upload.
+3. Runs a MONAI model to identify potential findings.
+4. Lets a radiologist accept, correct, or reject each candidate.
+5. Creates follow-up plans and notifications automatically.
 
-## التقنيات
+## Technology Stack
 
 - Django 6.1
-- MONAI وPyTorch
-- pydicom لمعالجة DICOM
-- SQLite للتجربة المحلية
-- واجهة عربية متجاوبة
+- MONAI and PyTorch
+- pydicom for DICOM processing
+- SQLite for local development
+- Responsive Arabic user interface
+- Optional private Cloudinary storage
 
-## تشغيل الواجهة محليًا
+## Local Setup
 
 ```powershell
 python -m venv .venv
@@ -47,12 +50,11 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-افتح `http://127.0.0.1:8000/`.
+Open `http://127.0.0.1:8000/`.
 
-## ربط Cloudinary
+## Cloudinary Integration
 
-يحفظ سَنَد ملفات DICOM وتقارير PDF محليًا افتراضيًا. لتفعيل Cloudinary، انسخ
-قيمة **API Environment variable** من لوحة Cloudinary إلى ملف `.env` المحلي:
+SANAD stores DICOM files and generated PDF reports locally by default. To enable Cloudinary, copy the **API Environment variable** from the Cloudinary dashboard into the local `.env` file:
 
 ```dotenv
 CLOUDINARY_URL=cloudinary://api_key:api_secret@cloud_name?secure=true
@@ -60,24 +62,19 @@ SANAD_CLOUDINARY_ENABLED=1
 SANAD_CLOUDINARY_FOLDER=sanad/private-medical
 ```
 
-ثم أعد تشغيل الخادم. تُرفع الملفات الجديدة كأصول `raw/authenticated` ولا يوفّر
-التطبيق لها رابطًا عامًا. ينزّل التطبيق نسخة مؤقتة محمية إلى
-`private_uploads/cloudinary_cache` فقط عندما يحتاج تحليل DICOM إلى مسار محلي.
-ملفات الرفع القديمة لا تُنقل تلقائيًا.
+Restart the server after changing the environment. New files are uploaded as `raw/authenticated` assets and the application does not expose a public delivery URL for them. A protected temporary copy is downloaded to `private_uploads/cloudinary_cache` only when DICOM analysis requires a local filesystem path. Existing local uploads are not migrated automatically.
 
-تحقق من بيانات الاتصال دون رفع أي ملف:
+Validate the connection without uploading a file:
 
 ```powershell
 python manage.py check_cloudinary
 ```
 
-> بيانات الأشعة معلومات صحية حساسة. لا تستخدم حساب Cloudinary فعليًا لبيانات
-> مرضى قبل التحقق من متطلبات الإقامة الجغرافية، اتفاقية معالجة البيانات،
-> ومتطلبات الجهة التنظيمية أو اتفاقية BAA المناسبة لحالتك.
+> Medical imaging data is sensitive health information. Do not use a production Cloudinary account for real patient data until you have verified data-residency requirements, a suitable data-processing agreement, applicable regulatory obligations, and any required BAA for your use case.
 
-## تشغيل الذكاء الاصطناعي
+## AI Environment
 
-بيئة الذكاء الاصطناعي منفصلة بسبب حجم PyTorch وMONAI. ثبّت إصدار PyTorch المناسب لكرت الشاشة، ثم:
+The AI environment is kept separate because of the size and hardware-specific requirements of PyTorch and MONAI. Install the PyTorch build appropriate for your GPU, then run:
 
 ```powershell
 python -m venv .venv-ai
@@ -85,39 +82,38 @@ python -m venv .venv-ai
 python -m pip install -r requirements-ai.txt
 ```
 
-أوزان النموذج غير محفوظة في Git. ضع النموذج المعتمد في:
+Model weights are not stored in Git. Place the approved model at:
 
 ```text
 ai_models/lung_nodule_ct_detection/models/model.pt
 ```
 
-يمكن تغيير المسارات بواسطة `SANAD_AI_PYTHON` و`SANAD_AI_MODEL_ROOT`.
+Override the default paths with `SANAD_AI_PYTHON` and `SANAD_AI_MODEL_ROOT` when needed.
 
-## الاختبارات
+## Tests
 
 ```powershell
 python manage.py test
 python manage.py check --deploy
 ```
 
-تغطي الاختبارات الصلاحيات، عزل بيانات المنشآت، رفع الملفات، التخزين السحابي
-الخاص، مراجعة نتائج النموذج، التنبيهات، وحالات الخطأ.
+The current suite contains 74 automated tests covering authorization, organization-level data isolation, uploads, private cloud storage, model-result review, notifications, and error handling.
 
-## نتائج النموذج
+## Model Results
 
-راجع [MODEL_CARD.md](MODEL_CARD.md) للنتائج والقيود. على مجموعة اختبار LUNA16 المنفصلة، اكتشف النموذج 97 من 102 عقدة، مع 2.51 إنذار خاطئ لكل دراسة. هذه نتيجة بحثية وليست اعتمادًا سريريًا.
+See [MODEL_CARD.md](MODEL_CARD.md) for detailed results and limitations. On the held-out LUNA16 test set, the model detected 97 of 102 nodules with 2.51 false positives per scan. This is a research result, not clinical validation.
 
-## الخصوصية والأمان
+## Privacy and Security
 
-- لا يتضمن المستودع بيانات مرضى أو صور DICOM أو قاعدة البيانات المحلية.
-- الملفات الطبية تحفظ خارج مجلد الوسائط العام وتخضع لصلاحيات المنشأة.
-- توجد حماية CSRF وCSP وحدود لملفات ZIP ومحاولات تسجيل الدخول.
-- راجع [SECURITY_AUDIT.md](SECURITY_AUDIT.md) و[SECURITY.md](SECURITY.md).
+- The repository contains no patient records, DICOM studies, or local database files.
+- Medical files are stored outside the public media directory and are protected by organization-level authorization.
+- The application includes CSRF and CSP protections, ZIP upload limits, and login-attempt controls.
+- See [SECURITY_AUDIT.md](SECURITY_AUDIT.md) and [SECURITY.md](SECURITY.md).
 
-## البيانات والاعتمادات
+## Data and Attribution
 
-يعتمد نموذج الكشف على حزمة MONAI وبيانات LUNA16 المبنية على LIDC-IDRI. يجب الالتزام بشروط البيانات وذكر أصحابها. توجد تفاصيل الترخيص والمراجع في `ai_models/lung_nodule_ct_detection/docs`.
+The detection model uses MONAI and the LUNA16 dataset derived from LIDC-IDRI. Dataset terms and attribution requirements still apply. Licensing and reference details are documented in `ai_models/lung_nodule_ct_detection/docs`.
 
-## الترخيص
+## License
 
-كود سَنَد متاح بموجب ترخيص [Apache License 2.0](LICENSE). تحتفظ المكونات الخارجية وبيانات التدريب بتراخيصها وشروط استخدامها الموجودة داخل مجلداتها ومصادرها الأصلية.
+SANAD is available under the [Apache License 2.0](LICENSE). External components and training data retain their own licenses and terms.
